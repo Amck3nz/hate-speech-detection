@@ -3,9 +3,9 @@ import sys
 from zipfile import ZipFile
 from hate_speech.logger import logging
 from hate_speech.exception import CustomException
-from hate_speech.configuration.data_sync import GCloudSync
-from hate_speech.entity.config_entity import DataIngestionConfig
-from hate_speech.entity.artifact_entity import DataIngestionArtifacts
+from hate_speech.data.data_sync import GCloudSync
+from hate_speech.configuration.config_entity import DataIngestionConfig
+from hate_speech.configuration.artifact_entity import DataIngestionArtifacts
 
 
 class DataIngestion:
