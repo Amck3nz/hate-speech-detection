@@ -57,7 +57,7 @@ class ModelTrainer:
 
 
     
-    def initiate_model_trainer(self,) -> ModelTrainerArtifacts:
+    def process(self,) -> ModelTrainerArtifacts:
         logging.info("Entered initiate_model_trainer method of ModelTrainer class")
 
         """
@@ -69,7 +69,7 @@ class ModelTrainer:
         """
 
         try:
-            logging.info("Entered the initiate_model_trainer function ")
+            logging.info("STAGE [initiate_model_trainer] STARTED ----------/n ")
             x_train,x_test,y_train,y_test = self.spliting_data(csv_path=self.data_transformation_artifacts.transformed_data_path)
             model_architecture = ModelArchitecture()   
 
@@ -84,20 +84,20 @@ class ModelTrainer:
             sequences_matrix,tokenizer =self.tokenizing(x_train)
 
 
-            logging.info("Entered into model training")
+            logging.info("Model training STARTED ----------/n")
             model.fit(sequences_matrix, y_train, 
                         batch_size=self.model_trainer_config.BATCH_SIZE, 
                         epochs = self.model_trainer_config.EPOCH, 
                         validation_split=self.model_trainer_config.VALIDATION_SPLIT, 
                         )
-            logging.info("Model training finished")
+            logging.info("Model training COMPLETE ----------/n")
             with open('tokenizer.pickle', 'wb') as handle:
                 pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
             os.makedirs(self.model_trainer_config.TRAINED_MODEL_DIR,exist_ok=True)
 
 
 
-            logging.info("saving the model")
+            logging.info("Saving model...")
             model.save(self.model_trainer_config.TRAINED_MODEL_PATH)
             x_test.to_csv(self.model_trainer_config.X_TEST_DATA_PATH)
             y_test.to_csv(self.model_trainer_config.Y_TEST_DATA_PATH)
@@ -108,7 +108,7 @@ class ModelTrainer:
                 trained_model_path = self.model_trainer_config.TRAINED_MODEL_PATH,
                 x_test_path = self.model_trainer_config.X_TEST_DATA_PATH,
                 y_test_path = self.model_trainer_config.Y_TEST_DATA_PATH)
-            logging.info("Returning the ModelTrainerArtifacts")
+            logging.info("Returning ModelTrainerArtifacts...")
             return model_trainer_artifacts
 
         except Exception as e:

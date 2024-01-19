@@ -5,7 +5,7 @@ from keras.utils import pad_sequences
 import pickle
 import numpy as np
 import pandas as pd
-# from hate.ml.model import ModelArchitecture
+# from hate_speech.models.model import ModelArchitecture
 # from keras.preprocessing.text import Tokenizer
 from sklearn.metrics import confusion_matrix
 
@@ -26,9 +26,9 @@ class ModelEvaluation:
                  model_trainer_artifacts: ModelTrainerArtifacts,
                  data_transformation_artifacts: DataTransformationArtifacts):
         """
-        :param model_evaluation_config: Configuration for model eva            model = model_architecture.get_model()
- data transformation artifact stage
-        :param model_trainer_artifacts: Output reference of model trainer artifact stage
+        [param] model_evaluation_config: Configuration for model eval
+        [param] model_trainer_artifacts: Output reference of model trainer artifact stage
+        model = model_architecture.get_model()
         """
 
         self.model_evaluation_config = model_evaluation_config
@@ -46,7 +46,7 @@ class ModelEvaluation:
 
             os.makedirs(self.model_evaluation_config.BEST_MODEL_DIR_PATH, exist_ok=True)
 
-            self.gcloud.sync_folder_from_gcloud(self.model_evaluation_config.BUCKET_NAME,
+            self.gcloud.sync_from_gcloud(self.model_evaluation_config.BUCKET_NAME,
                                                 self.model_evaluation_config.MODEL_NAME,
                                                 self.model_evaluation_config.BEST_MODEL_DIR_PATH)
 
@@ -106,7 +106,7 @@ class ModelEvaluation:
             raise CustomException(e, sys) from e
 
 
-    def initiate_model_evaluation(self) -> ModelEvaluationArtifacts:
+    def process(self) -> ModelEvaluationArtifacts:
         """
             Method Name :   initiate_model_evaluation
             Description :   This function is used to initiate all steps of the model evaluation

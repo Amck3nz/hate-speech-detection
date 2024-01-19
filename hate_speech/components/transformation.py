@@ -19,15 +19,15 @@ class DataTransformation:
         self.data_ingestion_artifacts = data_ingestion_artifacts
 
     
-    def imbalance_data_cleaning(self):
+    def imbalanced_data_cleaning(self):
 
         try:
-            logging.info("Entered into the imbalance_data_cleaning function")
-            imbalance_data=pd.read_csv(self.data_ingestion_artifacts.imbalance_data_file_path)
-            imbalance_data.drop(self.data_transformation_config.ID,axis=self.data_transformation_config.AXIS , 
+            logging.info("Entered into the imbalanced_data_cleaning function")
+            imbalanced_data=pd.read_csv(self.data_ingestion_artifacts.imbalanced_data_file_path)
+            imbalanced_data.drop(self.data_transformation_config.ID,axis=self.data_transformation_config.AXIS , 
             inplace = self.data_transformation_config.INPLACE)
-            logging.info(f"Exited the imbalance data_cleaning function and returned imbalance data {imbalance_data}")
-            return imbalance_data 
+            logging.info(f"Exited the imbalance data_cleaning function and returned imbalance data {imbalanced_data}")
+            return imbalanced_data 
         except Exception as e:
             raise CustomException(e,sys) from e 
 
@@ -63,7 +63,7 @@ class DataTransformation:
         try:
             logging.info("Entered into the concat_dataframe function")
             # Let's concatinate both the data into a single data frame.
-            frame = [self.raw_data_cleaning(), self.imbalance_data_cleaning()]
+            frame = [self.raw_data_cleaning(), self.imbalanced_data_cleaning()]
             df = pd.concat(frame)
             print(df.head())
             logging.info(f"returned the concatinated dataframe {df}")
@@ -101,10 +101,10 @@ class DataTransformation:
 
 
     
-    def initiate_data_transformation(self) -> DataTransformationArtifacts:
+    def process(self) -> DataTransformationArtifacts:
         try:
             logging.info("Entered the initiate_data_transformation method of Data transformation class")
-            self.imbalance_data_cleaning()
+            self.imbalanced_data_cleaning()
             self.raw_data_cleaning()
             df = self.concat_dataframe()
             df[self.data_transformation_config.TWEET]=df[self.data_transformation_config.TWEET].apply(self.concat_data_cleaning)

@@ -18,7 +18,7 @@ class DataIngestion:
 
     def get_gcloud_data(self) -> None:
         try:
-            logging.info("Entered the get_gcloud_data method of Data Ingestion class")
+            logging.info("---------- STAGE [get_gcloud_data] STARTED ---------- /n")
 
             os.makedirs(self.data_ingestion_config.DATA_INGESTION_ARTIFACTS_DIR, exist_ok=True)
 
@@ -26,7 +26,7 @@ class DataIngestion:
                                          self.data_ingestion_config.ZIP_FILE_NAME,
                                          self.data_ingestion_config.DATA_INGESTION_ARTIFACTS_DIR)
             
-            logging.info("Exited the get_gcloud_data method of Data Ingestion class")
+            logging.info("---------- STAGE [get_gcloud_data] COMPLETED ---------- /n")
 
         except Exception as e:
             raise CustomException(e, sys) from e
@@ -65,7 +65,7 @@ class DataIngestion:
 
             data_ingestion_artifacts = DataIngestionArtifacts(imbalanced_data_file_path=imbalanced_data_file_path, raw_data_file_path=raw_data_file_path)
 
-            logging.info("Data ingestion intiation complete ----------/n")
+            logging.info("Data ingestion intiation completed ----------/n")
             logging.info("Data ingestion artifact: {data_ingestion_artifacts}")
 
             return data_ingestion_artifacts

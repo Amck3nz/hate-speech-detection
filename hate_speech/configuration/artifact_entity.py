@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 
-# Data ingestion artifacts
+# Data artifacts ---------------------
 @dataclass
 class DataIngestionArtifacts:
     imbalanced_data_file_path: str
     raw_data_file_path: str
-
 
 @dataclass
 class DataTransformationArtifacts:
@@ -13,6 +12,7 @@ class DataTransformationArtifacts:
 
 
 
+# Model artifacts ---------------------
 @dataclass
 class ModelTrainerArtifacts: 
     trained_model_path:str
@@ -22,7 +22,6 @@ class ModelTrainerArtifacts:
 @dataclass
 class ModelEvaluationArtifacts:
     is_model_accepted: bool    
-
 
 @dataclass
 class ModelPusherArtifacts:

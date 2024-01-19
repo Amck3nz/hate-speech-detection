@@ -25,7 +25,7 @@ class TrainPipeline:
             logging.info("Getting the data from GCLoud Storage bucket")
             data_ingestion = DataIngestion(data_ingestion_config = self.data_ingestion_config)
 
-            data_ingestion_artifacts = data_ingestion.initiate_data_ingestion()
+            data_ingestion_artifacts = data_ingestion.process()
             logging.info("Got the train and valid from GCLoud Storage")
             logging.info("Exited the start_data_ingestion method of TrainPipeline class")
             return data_ingestion_artifacts
@@ -42,7 +42,7 @@ class TrainPipeline:
                 data_transformation_config=self.data_transformation_config
             )
 
-            data_transformation_artifacts = data_transformation.initiate_data_transformation()
+            data_transformation_artifacts = data_transformation.process()
             
             logging.info("Exited the start_data_transformation method of TrainPipeline class")
             return data_transformation_artifacts
@@ -59,7 +59,7 @@ class TrainPipeline:
             model_trainer = ModelTrainer(data_transformation_artifacts=data_transformation_artifacts,
                                         model_train_config=self.model_train_config
                                         )
-            model_trainer_artifacts = model_trainer.initiate_model_trainer()
+            model_trainer_artifacts = model_trainer.process()
             logging.info("Exited the start_model_trainer method of TrainPipeline class")
             return model_trainer_artifacts
 
@@ -74,7 +74,7 @@ class TrainPipeline:
                                                 model_evaluation_config=self.model_evaluation_config,
                                                 model_trainer_artifacts=model_trainer_artifacts)
 
-            model_evaluation_artifacts = model_evaluation.initiate_model_evaluation()
+            model_evaluation_artifacts = model_evaluation.process()
             logging.info("Exited the start_model_evaluation method of TrainPipeline class")
             return model_evaluation_artifacts
 
@@ -88,7 +88,7 @@ class TrainPipeline:
             model_pusher = ModelPusher(
                 model_pusher_config=self.model_pusher_config,
             )
-            model_pusher_artifact = model_pusher.initiate_model_pusher()
+            model_pusher_artifact = model_pusher.process()
             logging.info("Initiated the model pusher")
             logging.info("Exited the start_model_pusher method of TrainPipeline class")
             return model_pusher_artifact

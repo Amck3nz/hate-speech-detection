@@ -1,9 +1,10 @@
-from hate_speech.constants import *
-from hate_speech.configuration.config_entity import ModelTrainerConfig
 from keras.models import Sequential
 from keras.optimizers import RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import LSTM,Activation,Dense,Dropout,Input,Embedding,SpatialDropout1D
+
+from hate_speech.constants import *
+from hate_speech.configuration.config_entity import ModelTrainerConfig
 
 
 class ModelArchitecture:
