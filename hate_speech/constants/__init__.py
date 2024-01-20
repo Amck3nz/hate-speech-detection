@@ -6,8 +6,8 @@ from datetime import datetime
 # Common constants
 TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
 ARTIFACTS_DIR = os.path.join("artifacts", TIMESTAMP)
-BUCKET_NAME = 'hate-speech'
-ZIP_FILE_NAME = 'dataset.zip'
+BUCKET_NAME = 'hate-speech-project-bucket'
+ZIP_FILE_NAME = 'data.zip'
 LABEL = 'label'
 TWEET = 'tweet'
 MODEL_NAME = 'model.h5'
@@ -28,7 +28,6 @@ AXIS = 1
 INPLACE = True
 DROP_COLUMNS = ['Unnamed: 0','count','hate_speech','offensive_language','neither']
 CLASS = 'class'
-
 
 # Model training constants
 MODEL_TRAINER_ARTIFACTS_DIR = 'ModelTrainerArtifacts'

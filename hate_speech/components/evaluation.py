@@ -13,10 +13,8 @@ from hate_speech.logger import logging
 from hate_speech.exception import CustomException
 from hate_speech.constants import *
 from hate_speech.data.data_sync import GCloudSync
-from hate_speech.configuration.config_entity import ModelEvaluationConfig
-from hate_speech.configuration.artifact_entity import ModelEvaluationArtifacts, ModelTrainerArtifacts, DataTransformationArtifacts
-from hate_speech.configuration.config_entity import ModelEvaluationConfig
-from hate_speech.configuration.artifact_entity import ModelEvaluationArtifacts, ModelTrainerArtifacts, DataTransformationArtifacts
+from hate_speech.configuration.configs import ModelEvaluationConfig
+from hate_speech.configuration.artifacts import ModelEvaluationArtifacts, ModelTrainerArtifacts, DataTransformationArtifacts
 
 
 
@@ -106,7 +104,7 @@ class ModelEvaluation:
             raise CustomException(e, sys) from e
 
 
-    def process(self) -> ModelEvaluationArtifacts:
+    def evaluate_model(self) -> ModelEvaluationArtifacts:
         """
             Method Name :   initiate_model_evaluation
             Description :   This function is used to initiate all steps of the model evaluation

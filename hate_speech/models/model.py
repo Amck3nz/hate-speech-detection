@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import LSTM,Activation,Dense,Dropout,Input,Embedding,SpatialDropout1D
 
 from hate_speech.constants import *
-from hate_speech.configuration.config_entity import ModelTrainerConfig
+from hate_speech.configuration.configs import ModelTrainerConfig
 
 
 class ModelArchitecture:

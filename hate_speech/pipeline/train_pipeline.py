@@ -6,8 +6,8 @@ from hate_speech.components.transformation import DataTransformation
 from hate_speech.components.trainer import ModelTrainer
 from hate_speech.components.evaluation import ModelEvaluation
 from hate_speech.components.model_push import ModelPusher
-from hate_speech.configuration.config_entity import DataIngestionConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
-from hate_speech.configuration.artifact_entity import DataIngestionArtifacts, DataTransformationArtifacts, ModelTrainerArtifacts, ModelEvaluationArtifacts, ModelPusherArtifacts
+from hate_speech.configuration.configs import DataIngestionConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
+from hate_speech.configuration.artifacts import DataIngestionArtifacts, DataTransformationArtifacts, ModelTrainerArtifacts, ModelEvaluationArtifacts, ModelPusherArtifacts
 
 
 class TrainPipeline:
@@ -25,7 +25,7 @@ class TrainPipeline:
             logging.info("Getting the data from GCLoud Storage bucket")
             data_ingestion = DataIngestion(data_ingestion_config = self.data_ingestion_config)
 
-            data_ingestion_artifacts = data_ingestion.process()
+            data_ingestion_artifacts = data_ingestion.initiate_data_ingestion()
             logging.info("Got the train and valid from GCLoud Storage")
             logging.info("Exited the start_data_ingestion method of TrainPipeline class")
             return data_ingestion_artifacts
@@ -57,9 +57,9 @@ class TrainPipeline:
         )
         try:
             model_trainer = ModelTrainer(data_transformation_artifacts=data_transformation_artifacts,
-                                        model_train_config=self.model_train_config
+                                        model_trainer_config=self.model_train_config
                                         )
-            model_trainer_artifacts = model_trainer.process()
+            model_trainer_artifacts = model_trainer.train_model()
             logging.info("Exited the start_model_trainer method of TrainPipeline class")
             return model_trainer_artifacts
 
@@ -74,7 +74,7 @@ class TrainPipeline:
                                                 model_evaluation_config=self.model_evaluation_config,
                                                 model_trainer_artifacts=model_trainer_artifacts)
 
-            model_evaluation_artifacts = model_evaluation.process()
+            model_evaluation_artifacts = model_evaluation.evaluate_model()
             logging.info("Exited the start_model_evaluation method of TrainPipeline class")
             return model_evaluation_artifacts
 
@@ -88,7 +88,7 @@ class TrainPipeline:
             model_pusher = ModelPusher(
                 model_pusher_config=self.model_pusher_config,
             )
-            model_pusher_artifact = model_pusher.process()
+            model_pusher_artifact = model_pusher.push_model()
             logging.info("Initiated the model pusher")
             logging.info("Exited the start_model_pusher method of TrainPipeline class")
             return model_pusher_artifact

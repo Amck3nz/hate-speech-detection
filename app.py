@@ -10,7 +10,7 @@ from hate_speech.pipeline.train_pipeline import TrainPipeline
 from hate_speech.pipeline.pred_pipeline import PredictionPipeline
 
 
-text:str = "What is machine learing?"
+text:str = "What is deep learing?"
 
 app = FastAPI()
 

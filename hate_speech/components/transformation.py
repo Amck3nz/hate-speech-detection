@@ -9,35 +9,36 @@ nltk.download('stopwords')
 from sklearn.model_selection import train_test_split
 from hate_speech.logger import logging 
 from hate_speech.exception import CustomException
-from hate_speech.configuration.config_entity import DataTransformationConfig
-from hate_speech.configuration.artifact_entity import DataIngestionArtifacts, DataTransformationArtifacts
+from hate_speech.configuration.configs import DataTransformationConfig
+from hate_speech.configuration.artifacts import DataIngestionArtifacts, DataTransformationArtifacts
 
 
 class DataTransformation:
-    def __init__(self,data_transformation_config: DataTransformationConfig,data_ingestion_artifacts:DataIngestionArtifacts):
+    def __init__(self, data_transformation_config: DataTransformationConfig, data_ingestion_artifacts:DataIngestionArtifacts):
         self.data_transformation_config = data_transformation_config
         self.data_ingestion_artifacts = data_ingestion_artifacts
 
     
     def imbalanced_data_cleaning(self):
-
         try:
             logging.info("Entered into the imbalanced_data_cleaning function")
-            imbalanced_data=pd.read_csv(self.data_ingestion_artifacts.imbalanced_data_file_path)
-            imbalanced_data.drop(self.data_transformation_config.ID,axis=self.data_transformation_config.AXIS , 
-            inplace = self.data_transformation_config.INPLACE)
-            logging.info(f"Exited the imbalance data_cleaning function and returned imbalance data {imbalanced_data}")
+            imbalanced_data = pd.read_csv(self.data_ingestion_artifacts.imbalanced_data_file_path)
+            imbalanced_data.drop(self.data_transformation_config.ID,
+                                  axis=self.data_transformation_config.AXIS, 
+                                  inplace = self.data_transformation_config.INPLACE)
+            
+            logging.info(f"Exited the imbalanced data_cleaning function and returned imbalanced data {imbalanced_data}")
             return imbalanced_data 
+        
         except Exception as e:
             raise CustomException(e,sys) from e 
 
     
     def raw_data_cleaning(self):
-        
         try:
             logging.info("Entered into the raw_data_cleaning function")
             raw_data = pd.read_csv(self.data_ingestion_artifacts.raw_data_file_path)
-            raw_data.drop(self.data_transformation_config.DROP_COLUMNS,axis = self.data_transformation_config.AXIS,
+            raw_data.drop(self.data_transformation_config.DROP_COLUMNS, axis = self.data_transformation_config.AXIS,
             inplace = self.data_transformation_config.INPLACE)
 
             raw_data[raw_data[self.data_transformation_config.CLASS]==0][self.data_transformation_config.CLASS]=1
@@ -59,7 +60,6 @@ class DataTransformation:
 
     
     def concat_dataframe(self):
-
         try:
             logging.info("Entered into the concat_dataframe function")
             # Let's concatinate both the data into a single data frame.
@@ -76,7 +76,6 @@ class DataTransformation:
     
 
     def concat_data_cleaning(self, words):
-
         try:
             logging.info("Entered into the concat_data_cleaning function")
             # Let's apply stemming and stopwords on the data
@@ -110,7 +109,7 @@ class DataTransformation:
             df[self.data_transformation_config.TWEET]=df[self.data_transformation_config.TWEET].apply(self.concat_data_cleaning)
 
             os.makedirs(self.data_transformation_config.DATA_TRANSFORMATION_ARTIFACTS_DIR, exist_ok=True)
-            df.to_csv(self.data_transformation_config.TRANSFORMED_FILE_PATH,index=False,header=True)
+            df.to_csv(self.data_transformation_config.TRANSFORMED_FILE_PATH, index=False, header=True)
 
             data_transformation_artifact = DataTransformationArtifacts(
                 transformed_data_path = self.data_transformation_config.TRANSFORMED_FILE_PATH

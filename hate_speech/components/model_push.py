@@ -2,8 +2,8 @@ import sys
 from hate_speech.logger import logging
 from hate_speech.exception import CustomException
 from hate_speech.data.data_sync import GCloudSync
-from hate_speech.configuration.config_entity import ModelPusherConfig
-from hate_speech.configuration.artifact_entity import ModelPusherArtifacts
+from hate_speech.configuration.configs import ModelPusherConfig
+from hate_speech.configuration.artifacts import ModelPusherArtifacts
 
 class ModelPusher:
     def __init__(self, model_pusher_config: ModelPusherConfig):
@@ -15,7 +15,7 @@ class ModelPusher:
 
     
     
-    def process(self) -> ModelPusherArtifacts:
+    def push_model(self) -> ModelPusherArtifacts:
         """
             Method Name :   initiate_model_pusher
             Description :   This method initiates model pusher.
@@ -24,7 +24,7 @@ class ModelPusher:
         """
         logging.info("---------- STAGE [initiate_model_pusher] STARTED ---------- /n")
         try:
-            # Uploading the model to gcloud storage
+            # Uploading model to gcloud storage
 
             self.gcloud.sync_to_gcloud(self.model_pusher_config.BUCKET_NAME,
                                               self.model_pusher_config.TRAINED_MODEL_PATH,
@@ -32,7 +32,7 @@ class ModelPusher:
 
             logging.info("Uploaded best performing model to gcloud storage")
 
-            # Saving the model pusher artifacts
+            # Saving model pusher outputs
             model_pusher_artifact = ModelPusherArtifacts(
                 bucket_name=self.model_pusher_config.BUCKET_NAME
             )
